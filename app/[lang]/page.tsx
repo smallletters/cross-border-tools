@@ -87,7 +87,7 @@ export default function Home({ params, searchParams }: HomeProps) {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">{t('foundTool', locale)}</h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">{t('ctaText', locale)}</p>
           <Link href={`/${locale}/submit`} className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors">
-            <span>{t('submitBtn', locale)}</span>
+            <span>{locale === 'zh' ? '提交工具' : 'Submit Tool'}</span>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
           </Link>
         </div>

@@ -3,24 +3,18 @@ export const locales = ['en', 'zh'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
+// 翻译类型
+type TranslationDict = Record<string, { en: string; zh: string }>;
+
 // 通用翻译
-const translations = {
+const translations: TranslationDict = {
   home: { en: 'Home', zh: '首页' },
   categories: { en: 'Categories', zh: '分类' },
   featured: { en: 'Featured', zh: '推荐' },
   submit: { en: 'Submit Tool', zh: '提交工具' },
-  heroTitle: { 
-    en: 'Cross-Border E-commerce Tools Directory', 
-    zh: '跨境电商工具导航' 
-  },
-  heroSubtitle: { 
-    en: 'Hand-picked tools for cross-border sellers.', 
-    zh: '为跨境卖家精选最好用的工具。' 
-  },
-  searchPlaceholder: { 
-    en: 'Search tools by name...', 
-    zh: '搜索工具名称...' 
-  },
+  heroTitle: { en: 'Cross-Border E-commerce Tools', zh: '跨境电商工具导航' },
+  heroSubtitle: { en: 'Hand-picked tools for cross-border sellers.', zh: '为跨境卖家精选最好用的工具。' },
+  searchPlaceholder: { en: 'Search tools...', zh: '搜索工具...' },
   toolsCount: { en: 'Tools', zh: '精选工具' },
   categoriesCount: { en: 'Categories', zh: '热门分类' },
   usersCount: { en: 'Monthly Users', zh: '月活用户' },
@@ -32,10 +26,7 @@ const translations = {
   relatedTools: { en: 'Related Tools', zh: '同类工具推荐' },
   foundTool: { en: 'Found a great tool?', zh: '发现好工具？' },
   ctaText: { en: 'Submit and share!', zh: '欢迎提交给我们' },
-  footerDesc: { 
-    en: 'Hand-picked tools for cross-border sellers.', 
-    zh: '为跨境卖家精选最好用的工具。' 
-  },
+  footerDesc: { en: 'Hand-picked tools for cross-border sellers.', zh: '为跨境卖家精选最好用的工具。' },
   quickLinks: { en: 'Quick Links', zh: '快速链接' },
   browseCategories: { en: 'Browse Categories', zh: '分类浏览' },
   submitTool: { en: 'Submit Tool', zh: '提交工具' },
@@ -89,7 +80,7 @@ const translations = {
   basicListing: { en: 'Basic', zh: '基础收录' },
   featuredSpot: { en: 'Featured', zh: '推荐位' },
   annualMember: { en: 'Annual', zh: '年度会员' },
-  // Category names
+  submitBtn: { en: 'Submit Tool', zh: '提交工具' },
   catAll: { en: 'All', zh: '全部' },
   catProductResearch: { en: 'Product Research', zh: '选品工具' },
   catErp: { en: 'ERP System', zh: 'ERP系统' },
@@ -110,7 +101,7 @@ const translations = {
 };
 
 // 获取翻译
-export function t(key: keyof typeof translations, locale: Locale = defaultLocale): string {
+export function t(key: string, locale: Locale = defaultLocale): string {
   const dict = translations[key];
   if (dict && typeof dict === 'object') {
     return dict[locale] || dict.en || key;
@@ -120,7 +111,7 @@ export function t(key: keyof typeof translations, locale: Locale = defaultLocale
 
 // 获取分类名称
 export function getCategoryName(id: string, locale: Locale): string {
-  const categoryMap: Record<string, keyof typeof translations> = {
+  const categoryMap: Record<string, string> = {
     'all': 'catAll',
     'product-research': 'catProductResearch',
     'erp': 'catErp',
@@ -134,8 +125,8 @@ export function getCategoryName(id: string, locale: Locale): string {
     'ip-trademark': 'catIpTrademark',
     'translation': 'catTranslation',
   };
-  const key = categoryMap[id];
-  if (key) return t(key, locale);
+  const mapKey = categoryMap[id];
+  if (mapKey) return t(mapKey, locale);
   return id;
 }
 

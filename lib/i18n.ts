@@ -3,16 +3,10 @@ export const locales = ['en', 'zh'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
-// 语言对应的显示名称
-export const localeNames: Record<Locale, string> = {
-  en: 'English',
-  zh: '中文',
-};
-
-// 翻译内容
+// 翻译内容 - 使用扁平化 key
 const translations = {
   en: {
-    // Header
+    // Header & Nav
     home: 'Home',
     categories: 'Categories',
     featured: 'Featured',
@@ -52,10 +46,7 @@ const translations = {
     free: 'Free',
     recommended: 'Recommended',
     // Detail Page
-    breadcrumbs: {
-      home: 'Home',
-      category: 'Category',
-    },
+    breadcrumbsHome: 'Home',
     about: 'About',
     quickInfo: 'Quick Info',
     officialWebsite: 'Official Website',
@@ -70,8 +61,8 @@ const translations = {
     submitTitle: 'Submit Tool',
     submitSubtitle: 'Found a great cross-border e-commerce tool? Share it with others!',
     submitNotice: 'Submission Guidelines',
-    notice1: 'Tools must be related to cross-border e-commerce (product research, operations, logistics, payment, etc.)',
-    notice2: 'Please provide accurate official website link and tool description',
+    notice1: 'Tools must be related to cross-border e-commerce',
+    notice2: 'Please provide accurate official website link',
     notice3: 'Free submissions take 3-5 business days to review',
     notice4: 'Priority review available with paid service',
     toolName: 'Tool Name',
@@ -81,19 +72,19 @@ const translations = {
     tags: 'Tags',
     tagsHint: 'Separate with commas',
     price: 'Price / Pricing Model',
-    priceHint: 'e.g., Free, $29/month, One-time payment',
+    priceHint: 'e.g., Free, $29/month',
     email: 'Contact Email',
     emailHint: 'Used for review notification only',
     notes: 'Additional Notes',
     notesHint: 'Anything special to note?',
-    agreeTerms: 'I confirm the submitted information is accurate and agree to the terms of service.',
+    agreeTerms: 'I confirm the submitted information is accurate.',
     submitting: 'Submitting...',
     submitSuccess: 'Submission successful!',
-    successDesc: 'Thank you for your submission. We will review it soon.',
+    successDesc: 'Thank you for your submission.',
     submitFailed: 'Submission failed',
-    failedDesc: 'Please check and try again, or contact support.',
+    failedDesc: 'Please check and try again.',
     priorityReview: 'Priority Review',
-    priorityDesc: 'Choose priority review for approval within 24 hours and featured placement.',
+    priorityDesc: 'Get approval within 24 hours.',
     basicListing: 'Basic Listing',
     featuredSpot: 'Featured Spot',
     annualMember: 'Annual Member',
@@ -111,16 +102,16 @@ const translations = {
     'ip-trademark': 'IP & Trademark',
     'translation': 'Translation',
     // About tool
-    aboutToolDesc: 'is a widely-used tool in the cross-border e-commerce field for',
-    fieldDesc: '. It helps sellers work more efficiently and improve operational effectiveness.',
-    recommendDesc: 'We highly recommend visiting the official website for more details and making the most of its features.',
+    aboutToolDesc: 'is a widely-used tool in the cross-border e-commerce field.',
+    fieldDesc: 'It helps sellers work more efficiently.',
+    recommendDesc: 'We highly recommend visiting the official website.',
     // No tool found
     toolNotFound: 'Tool Not Found',
-    notFoundDesc: 'The tool page you are looking for does not exist or has been removed.',
+    notFoundDesc: 'The tool page you are looking for does not exist.',
     backHome: 'Back to Home',
   },
   zh: {
-    // Header
+    // Header & Nav
     home: '首页',
     categories: '分类',
     featured: '推荐',
@@ -160,10 +151,7 @@ const translations = {
     free: '免费',
     recommended: '推荐',
     // Detail Page
-    breadcrumbs: {
-      home: '首页',
-      category: '分类',
-    },
+    breadcrumbsHome: '首页',
     about: '关于',
     quickInfo: '快速信息',
     officialWebsite: '官方网址',
@@ -178,8 +166,8 @@ const translations = {
     submitTitle: '提交工具',
     submitSubtitle: '发现了好用的跨境电商工具？分享给大家吧！',
     submitNotice: '提交须知',
-    notice1: '工具必须与跨境电商相关（选品、运营、物流、支付等）',
-    notice2: '请提供准确的官网链接和工具描述',
+    notice1: '工具必须与跨境电商相关',
+    notice2: '请提供准确的官网链接',
     notice3: '免费收录审核周期约 3-5 个工作日',
     notice4: '如需快速收录，可选择付费加速服务',
     toolName: '工具名称',
@@ -189,19 +177,19 @@ const translations = {
     tags: '标签',
     tagsHint: '（用逗号分隔）',
     price: '价格/收费模式',
-    priceHint: '例如：免费、$29/月起、一次性付费',
+    priceHint: '例如：免费、$29/月起',
     email: '联系邮箱',
     emailHint: '仅用于审核通知，不会公开显示',
     notes: '补充说明',
     notesHint: '（选填）有什么需要特别说明的？',
-    agreeTerms: '我确认提交的信息真实有效，并同意遵守网站的服务条款。',
+    agreeTerms: '我确认提交的信息真实有效，并同意遵守服务条款。',
     submitting: '提交中...',
     submitSuccess: '提交成功！',
     successDesc: '感谢您的提交，我们会尽快审核。',
     submitFailed: '提交失败',
     failedDesc: '请检查信息后重试，或联系客服。',
     priorityReview: '付费加速收录',
-    priorityDesc: '选择付费收录，24小时内审核通过，获得置顶推荐位。',
+    priorityDesc: '选择付费收录，24小时内审核通过。',
     basicListing: '基础收录',
     featuredSpot: '推荐位',
     annualMember: '年度会员',
@@ -219,12 +207,12 @@ const translations = {
     'ip-trademark': '知识产权',
     'translation': '翻译工具',
     // About tool
-    aboutToolDesc: '是跨境电商领域广泛使用的',
-    fieldDesc: '工具。它帮助卖家更高效地完成相关工作，提升运营效率。',
-    recommendDesc: '我们强烈建议您访问官方网站了解更多详情，并充分利用其提供的各项功能。',
+    aboutToolDesc: '是跨境电商领域广泛使用的工具。',
+    fieldDesc: '它帮助卖家更高效地完成相关工作，提升运营效率。',
+    recommendDesc: '我们强烈建议您访问官方网站了解更多详情。',
     // No tool found
     toolNotFound: '工具未找到',
-    notFoundDesc: '很抱歉，您访问的工具页面不存在或已被移除。试试返回首页查找其他工具吧。',
+    notFoundDesc: '很抱歉，您访问的工具页面不存在或已被移除。',
     backHome: '返回首页',
   },
 } as const;
@@ -233,15 +221,15 @@ export type TranslationKey = keyof typeof translations.en;
 
 // 获取翻译
 export function t(key: TranslationKey, locale: Locale = defaultLocale): string {
-  return translations[locale][key] || translations.en[key] || key;
+  const dict = translations[locale] as Record<string, string>;
+  const enDict = translations.en as Record<string, string>;
+  return dict[key] || enDict[key] || key;
 }
 
 // 根据 IP 判断语言
 export function detectLanguage(country?: string): Locale {
-  // 如果是中国 IP，显示中文
   if (country === 'CN' || country === 'CHINA') {
     return 'zh';
   }
-  // 默认英文
   return 'en';
 }

@@ -52,7 +52,6 @@ export default function SubmitPage({ params }: PageProps) {
       </section>
 
       <main className="max-w-3xl mx-auto px-4 py-12">
-        {/* Notice */}
         <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6 mb-8">
           <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-3 flex items-center gap-2">
             <span className="text-xl">📋</span> {t('submitNotice', locale)}
@@ -65,7 +64,6 @@ export default function SubmitPage({ params }: PageProps) {
           </ul>
         </div>
 
-        {/* Success */}
         {submitStatus === 'success' && (
           <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl p-6 mb-8">
             <div className="flex items-center gap-3">
@@ -82,7 +80,6 @@ export default function SubmitPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Error */}
         {submitStatus === 'error' && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 mb-8">
             <h3 className="font-semibold text-red-900 dark:text-red-100">{t('submitFailed', locale)}</h3>
@@ -90,7 +87,6 @@ export default function SubmitPage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-8">
           <div className="space-y-6">
             <div>
@@ -115,7 +111,7 @@ export default function SubmitPage({ params }: PageProps) {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">{t('tags', locale)} <span className="text-gray-400 text-xs">{t('tagsHint', locale)}</span></label>
-              <input type="text" name="tags" value={formData.tags} onChange={handleChange} placeholder="Amazon, Product Research" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" name="tags" value={formData.tags} onChange={handleChange} placeholder="Amazon, Research" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">{t('price', locale)}</label>
@@ -127,7 +123,7 @@ export default function SubmitPage({ params }: PageProps) {
               <p className="text-xs text-gray-500 mt-1">{t('emailHint', locale)}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">{t('notes', locale)} <span className="text-gray-400 text-xs">{t('tagsHint', locale)}</span></label>
+              <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">{t('notes', locale)}</label>
               <textarea name="notes" value={formData.notes} onChange={handleChange} rows={2} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
             </div>
             <div className="flex items-start gap-3">
@@ -150,7 +146,6 @@ export default function SubmitPage({ params }: PageProps) {
           </button>
         </form>
 
-        {/* Priority */}
         <div className="mt-8 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-6">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900 rounded-xl flex items-center justify-center text-2xl">⚡</div>

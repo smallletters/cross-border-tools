@@ -1,7 +1,7 @@
 'use client';
 
 import { categories } from '@/lib/tools';
-import { t, type Locale } from '@/lib/i18n';
+import { getCategoryName, type Locale } from '@/lib/i18n';
 
 interface CategoryTabsProps {
   activeCategory: string;
@@ -10,13 +10,6 @@ interface CategoryTabsProps {
 }
 
 export default function CategoryTabs({ activeCategory, onCategoryChange, locale = 'en' }: CategoryTabsProps) {
-  const getCategoryName = (id: string) => {
-    if (id === 'all') return t('all', locale);
-    const cat = categories.find(c => c.id === id);
-    if (cat) return cat.name;
-    return id;
-  };
-
   return (
     <div className="flex flex-wrap gap-2 mb-8">
       {categories.map((category) => (
@@ -30,7 +23,7 @@ export default function CategoryTabs({ activeCategory, onCategoryChange, locale 
             }`}
         >
           <span className="mr-1">{category.icon}</span>
-          {getCategoryName(category.id)}
+          {getCategoryName(category.id, locale)}
         </button>
       ))}
     </div>

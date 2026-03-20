@@ -2,7 +2,7 @@ import Link from 'next/link';
 import CategoryTabs from '@/components/CategoryTabs';
 import ToolCard from '@/components/ToolCard';
 import { categories, tools, getToolsByCategory, searchTools, getFeaturedTools } from '@/lib/tools';
-import { t, type Locale } from '@/lib/i18n';
+import { t, getCategoryName, type Locale } from '@/lib/i18n';
 
 interface HomeProps {
   params: { lang: string };
@@ -64,7 +64,7 @@ export default function Home({ params, searchParams }: HomeProps) {
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {query ? `${t('searchResults', locale)}"${query}"` : activeCategory === 'all' ? t('allTools', locale) : categories.find(c => c.id === activeCategory)?.name}
+              {query ? `${t('searchResults', locale)} "${query}"` : activeCategory === 'all' ? t('allTools', locale) : getCategoryName(activeCategory, locale)}
             </h2>
             <span className="text-gray-500 text-sm">{displayedTools.length} {t('toolsCount', locale)}</span>
           </div>

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getToolBySlug, tools } from '@/lib/tools';
-import { t, type Locale } from '@/lib/i18n';
+import { t, getCategoryName, type Locale } from '@/lib/i18n';
 
 interface PageProps {
   params: { lang: string; slug: string };
@@ -34,7 +34,6 @@ export default function ToolDetailPage({ params }: PageProps) {
 
   return (
     <>
-      {/* Breadcrumbs */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center gap-2 text-sm">
@@ -47,7 +46,6 @@ export default function ToolDetailPage({ params }: PageProps) {
 
       <main className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left */}
           <div className="lg:col-span-2">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-200 dark:border-gray-800 mb-8">
               <div className="flex items-start gap-4 mb-6">
@@ -64,7 +62,9 @@ export default function ToolDetailPage({ params }: PageProps) {
                     )}
                   </div>
                   <div className="flex flex-wrap items-center gap-3 text-sm">
-                    <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full">{tool.category}</span>
+                    <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full">
+                      {getCategoryName(tool.category, locale)}
+                    </span>
                     {tool.price && (
                       <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
                         💰 {tool.price}
@@ -86,12 +86,7 @@ export default function ToolDetailPage({ params }: PageProps) {
                   </span>
                 ))}
               </div>
-              <a
-                href={tool.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all shadow-lg"
-              >
+              <a href={tool.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all shadow-lg">
                 <span>{t('visitWebsite', locale)}</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -104,28 +99,23 @@ export default function ToolDetailPage({ params }: PageProps) {
                 {t('about', locale)} {tool.name}
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                {tool.name} {t('aboutToolDesc', locale)}{tool.tags.join(', ')}{t('fieldDesc', locale)}
+                {tool.name} {t('aboutToolDesc', locale)}
               </p>
               <p className="text-gray-600 dark:text-gray-300 mt-4">{t('recommendDesc', locale)}</p>
             </div>
           </div>
 
-          {/* Right */}
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
               <h3 className="font-bold text-gray-900 dark:text-white mb-4">{t('quickInfo', locale)}</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between">
                   <dt className="text-gray-500">{t('officialWebsite', locale)}</dt>
-                  <dd>
-                    <a href={tool.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 text-sm">
-                      →
-                    </a>
-                  </dd>
+                  <dd><a href={tool.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 text-sm">→</a></dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-gray-500">{t('category', locale)}</dt>
-                  <dd className="text-sm">{tool.category}</dd>
+                  <dd className="text-sm">{getCategoryName(tool.category, locale)}</dd>
                 </div>
                 {tool.price && (
                   <div className="flex justify-between">
@@ -146,9 +136,7 @@ export default function ToolDetailPage({ params }: PageProps) {
               <h3 className="font-bold text-gray-900 dark:text-white mb-4">{t('relatedTags', locale)}</h3>
               <div className="flex flex-wrap gap-2">
                 {tool.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-sm">
-                    {tag}
-                  </span>
+                  <span key={tag} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-sm">{tag}</span>
                 ))}
               </div>
             </div>
@@ -167,7 +155,6 @@ export default function ToolDetailPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Related */}
         {relatedTools.length > 0 && (
           <section className="mt-12">
             <div className="flex items-center gap-2 mb-6">
@@ -176,11 +163,7 @@ export default function ToolDetailPage({ params }: PageProps) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedTools.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/${locale}/tools/${item.slug}`}
-                  className="bg-white dark:bg-gray-900 rounded-xl p-6 border hover:border-blue-500 transition-all"
-                >
+                <Link key={item.id} href={`/${locale}/tools/${item.slug}`} className="bg-white dark:bg-gray-900 rounded-xl p-6 border hover:border-blue-500 transition-all">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold">
                       {item.name.charAt(0)}

@@ -6,8 +6,6 @@ interface HeaderProps {
 }
 
 export default function Header({ locale = 'en' }: HeaderProps) {
-  const tx = (key: Parameters<typeof t>[0]) => t(key, locale);
-
   return (
     <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,29 +23,29 @@ export default function Header({ locale = 'en' }: HeaderProps) {
           {/* 导航 */}
           <nav className="hidden md:flex items-center gap-6">
             <Link href={`/${locale}`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
-              {tx('home')}
+              {t('home', locale)}
             </Link>
             <Link href={`/${locale}#categories`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
-              {tx('categories')}
+              {t('categories', locale)}
             </Link>
             <Link href={`/${locale}#featured`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
-              {tx('featured')}
+              {t('featured', locale)}
             </Link>
-            <Link href={`/${locale}/submit` className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
-              {tx('submit')}
+            <Link href={`/${locale}/submit`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
+              {t('submit', locale)}
             </Link>
           </nav>
 
           {/* 语言切换 */}
           <div className="flex items-center gap-2">
             <Link 
-              href={`/zh${locale === 'en' ? '/submit' : ''}`}
+              href={`/zh`}
               className={`px-3 py-1 text-sm rounded-lg ${locale === 'zh' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               中文
             </Link>
             <Link 
-              href={`/en${locale === 'zh' ? '/submit' : ''}`}
+              href={`/en`}
               className={`px-3 py-1 text-sm rounded-lg ${locale === 'en' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               EN

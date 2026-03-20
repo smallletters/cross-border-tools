@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import HomeContent from './HomeContent';
 
+// 强制动态渲染，避免 useSearchParams 预渲染问题
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
   return (
     <Suspense fallback={

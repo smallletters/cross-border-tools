@@ -28,7 +28,7 @@ export default function Footer({ locale = 'en' }: FooterProps) {
             <h4 className="font-semibold text-gray-900 dark:text-white mb-4">{t('quickLinks', locale)}</h4>
             <ul className="space-y-2">
               <li><Link href={`/${locale}`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">{t('home', locale)}</Link></li>
-              <li><Link href={`/${locale}#categories`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">{t('browseCategories', locale)}</Link></li>
+              <li><Link href={`/${locale}`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">{t('categories', locale)}</Link></li>
               <li><Link href={`/${locale}/submit`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">{t('submitTool', locale)}</Link></li>
             </ul>
           </div>
@@ -36,10 +36,10 @@ export default function Footer({ locale = 'en' }: FooterProps) {
           <div>
             <h4 className="font-semibold text-gray-900 dark:text-white mb-4">{t('hotCategories', locale)}</h4>
             <ul className="space-y-2">
-              <li><Link href={`/${locale}?category=product-research`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">🔍 {t('productResearch', locale)}</Link></li>
-              <li><Link href={`/${locale}?category=erp`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">📦 {t('erp', locale)}</Link></li>
-              <li><Link href={`/${locale}?category=payment`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">💳 {t('payment', locale)}</Link></li>
-              <li><Link href={`/${locale}?category=logistics`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">🚚 {t('logistics', locale)}</Link></li>
+              <li><Link href={`/${locale}?category=product-research`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">🔍 {getCategoryName('product-research', locale)}</Link></li>
+              <li><Link href={`/${locale}?category=erp`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">📦 {getCategoryName('erp', locale)}</Link></li>
+              <li><Link href={`/${locale}?category=payment`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">💳 {getCategoryName('payment', locale)}</Link></li>
+              <li><Link href={`/${locale}?category=logistics`} className="text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">🚚 {getCategoryName('logistics', locale)}</Link></li>
             </ul>
           </div>
         </div>

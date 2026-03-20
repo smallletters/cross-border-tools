@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Tool } from '@/lib/tools';
-import { t, type Locale } from '@/lib/i18n';
+import { type Locale } from '@/lib/i18n';
 
 interface ToolCardProps {
   tool: Tool;
@@ -8,6 +8,35 @@ interface ToolCardProps {
 }
 
 export default function ToolCard({ tool, locale = 'en' }: ToolCardProps) {
+  // 根据语言返回不同描述
+  const getDescription = () => {
+    if (locale === 'zh') {
+      return tool.description;
+    }
+    return tool.descriptionEn || tool.description;
+  };
+
+  // 根据语言返回不同标签
+  const getTags = () => {
+    if (locale === 'zh') {
+      return tool.tags;
+    }
+    return tool.tagsEn || tool.tags;
+  };
+
+  // 翻译价格
+  const getPrice = () => {
+    if (!tool.price) return '';
+    if (locale === 'zh') {
+      return tool.price;
+    }
+    // 翻译价格格式
+    return tool.price
+      .replace('/月', '/month')
+      .replace('¥', '$')
+      .replace('起', ' starting');
+  };
+
   return (
     <Link href={`/${locale}/tools/${tool.slug}`}>
       <div className="group bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 cursor-pointer h-full">
@@ -22,7 +51,7 @@ export default function ToolCard({ tool, locale = 'en' }: ToolCardProps) {
                 {tool.name}
               </h3>
               {tool.price && (
-                <span className="text-xs text-gray-500 dark:text-gray-400">{tool.price}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">{getPrice()}</span>
               )}
             </div>
           </div>
@@ -38,12 +67,12 @@ export default function ToolCard({ tool, locale = 'en' }: ToolCardProps) {
 
         {/* Description */}
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-          {tool.description}
+          {getDescription()}
         </p>
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {tool.tags.slice(0, 3).map((tag) => (
+          {getTags().slice(0, 3).map((tag) => (
             <span
               key={tag}
               className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-md"
@@ -55,9 +84,11 @@ export default function ToolCard({ tool, locale = 'en' }: ToolCardProps) {
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
-          <span className="text-xs text-gray-400">{t('viewDetails', locale)} →</span>
+          <span className="text-xs text-gray-400">
+            {locale === 'zh' ? '查看详情 →' : 'View Details →'}
+          </span>
           <span className="text-blue-600 text-sm font-medium group-hover:translate-x-1 transition-transform">
-            {t('visitWebsite', locale)}
+            {locale === 'zh' ? '访问官网' : 'Visit'}
           </span>
         </div>
       </div>

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!tool) return { title: t('toolNotFound', locale) };
   return {
     title: `${tool.name} - Cross-Border Tools`,
-    description: tool.description,
+    description: tool.descriptionEn || tool.description,
   };
 }
 
@@ -31,6 +31,34 @@ export default function ToolDetailPage({ params }: PageProps) {
   const locale = params.lang as Locale;
   
   const relatedTools = tools.filter((item) => item.category === tool.category && item.id !== tool.id).slice(0, 3);
+
+  // 获取翻译后的描述
+  const getDescription = () => {
+    if (locale === 'zh') {
+      return tool.description;
+    }
+    return tool.descriptionEn || tool.description;
+  };
+
+  // 获取翻译后的标签
+  const getTags = () => {
+    if (locale === 'zh') {
+      return tool.tags;
+    }
+    return tool.tagsEn || tool.tags;
+  };
+
+  // 翻译价格
+  const getPrice = () => {
+    if (!tool.price) return '';
+    if (locale === 'zh') {
+      return tool.price;
+    }
+    return tool.price
+      .replace('/月', '/month')
+      .replace('¥', '$')
+      .replace('起', ' starting');
+  };
 
   return (
     <>
@@ -67,7 +95,7 @@ export default function ToolDetailPage({ params }: PageProps) {
                     </span>
                     {tool.price && (
                       <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
-                        💰 {tool.price}
+                        💰 {getPrice()}
                       </span>
                     )}
                     {tool.rating && (
@@ -78,9 +106,9 @@ export default function ToolDetailPage({ params }: PageProps) {
                   </div>
                 </div>
               </div>
-              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8">{tool.description}</p>
+              <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-8">{getDescription()}</p>
               <div className="flex flex-wrap gap-3 mb-6">
-                {tool.tags.map((tag) => (
+                {getTags().map((tag) => (
                   <span key={tag} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-sm">
                     #{tag}
                   </span>
@@ -120,7 +148,7 @@ export default function ToolDetailPage({ params }: PageProps) {
                 {tool.price && (
                   <div className="flex justify-between">
                     <dt className="text-gray-500">{t('priceRange', locale)}</dt>
-                    <dd className="text-sm">{tool.price}</dd>
+                    <dd className="text-sm">{getPrice()}</dd>
                   </div>
                 )}
                 {tool.rating && (
@@ -135,7 +163,7 @@ export default function ToolDetailPage({ params }: PageProps) {
             <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
               <h3 className="font-bold text-gray-900 dark:text-white mb-4">{t('relatedTags', locale)}</h3>
               <div className="flex flex-wrap gap-2">
-                {tool.tags.map((tag) => (
+                {getTags().map((tag) => (
                   <span key={tag} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-lg text-sm">{tag}</span>
                 ))}
               </div>
@@ -170,10 +198,10 @@ export default function ToolDetailPage({ params }: PageProps) {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">{item.name}</h3>
-                      {item.price && <span className="text-xs text-gray-500">{item.price}</span>}
+                      {item.price && <span className="text-xs text-gray-500">{locale === 'zh' ? item.price : item.price.replace('/月', '/month').replace('¥', '$').replace('起', ' starting')}</span>}
                     </div>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{item.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{locale === 'zh' ? item.description : (item.descriptionEn || item.description)}</p>
                 </Link>
               ))}
             </div>

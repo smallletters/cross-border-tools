@@ -28,9 +28,6 @@ export default function Header({ locale = 'en' }: HeaderProps) {
             <Link href={`/${locale}#categories`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
               {t('categories', locale)}
             </Link>
-            <Link href={`/${locale}#featured`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
-              {t('featured', locale)}
-            </Link>
             <Link href={`/${locale}/submit`} className="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">
               {t('submit', locale)}
             </Link>
@@ -39,13 +36,13 @@ export default function Header({ locale = 'en' }: HeaderProps) {
           {/* 语言切换 */}
           <div className="flex items-center gap-2">
             <Link 
-              href={`/zh`}
+              href="/zh"
               className={`px-3 py-1 text-sm rounded-lg ${locale === 'zh' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               中文
             </Link>
             <Link 
-              href={`/en`}
+              href="/en"
               className={`px-3 py-1 text-sm rounded-lg ${locale === 'en' ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               EN

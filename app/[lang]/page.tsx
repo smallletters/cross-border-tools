@@ -1,23 +1,54 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import CategoryTabs from '@/components/CategoryTabs';
+import CategoryFilter from '@/components/CategoryFilter';
 import ToolCard from '@/components/ToolCard';
-import { categories, tools, getToolsByCategory, searchTools, getFeaturedTools } from '@/lib/tools';
+import { categories, tools, getToolsByCategory, getFeaturedTools } from '@/lib/tools';
 import { t, getCategoryName, type Locale } from '@/lib/i18n';
 
 interface HomeProps {
   params: { lang: string };
-  searchParams: { category?: string; q?: string };
 }
 
-export default function Home({ params, searchParams }: HomeProps) {
+export default function Home({ params }: HomeProps) {
   const locale = params.lang as Locale;
-  const activeCategory = searchParams.category || 'all';
-  const query = searchParams.q || '';
-
-  let displayedTools = activeCategory === 'all' ? tools : getToolsByCategory(activeCategory);
-  if (query) displayedTools = searchTools(query);
-
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const featuredTools = getFeaturedTools();
+
+  useEffect(() => {
+    const handleCategoryChange = (e: CustomEvent) => {
+      setActiveCategory(e.detail);
+    };
+    window.addEventListener('categoryChange', handleCategoryChange as EventListener);
+    
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category') || 'all';
+    setActiveCategory(cat);
+    
+    return () => {
+      window.removeEventListener('categoryChange', handleCategoryChange as EventListener);
+    };
+  }, []);
+
+  const filteredTools = () => {
+    let result = activeCategory === 'all' ? tools : getToolsByCategory(activeCategory);
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(t => 
+        t.name.toLowerCase().includes(query) || 
+        t.description.toLowerCase().includes(query)
+      );
+    }
+    return result;
+  };
+
+  // 获取当前分类的显示名称
+  const getCategoryDisplayName = (id: string) => {
+    if (id === 'all') return locale === 'zh' ? '全部工具' : 'All Tools';
+    return getCategoryName(id, locale);
+  };
 
   return (
     <>
@@ -33,7 +64,13 @@ export default function Home({ params, searchParams }: HomeProps) {
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <input type="text" placeholder={t('searchPlaceholder', locale)} className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-200 rounded-2xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" />
+            <input 
+              type="text" 
+              placeholder={t('searchPlaceholder', locale)} 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-200 rounded-2xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" 
+            />
           </div>
           <div className="flex justify-center gap-8 mt-8">
             <div className="text-center"><div className="text-3xl font-bold">{tools.length}+</div><div className="text-blue-200 text-sm">{t('toolsCount', locale)}</div></div>
@@ -45,11 +82,13 @@ export default function Home({ params, searchParams }: HomeProps) {
 
       {/* Main */}
       <main className="max-w-7xl mx-auto px-4 py-12">
-        <section className="mb-12">
-          <CategoryTabs activeCategory={activeCategory} onCategoryChange={() => {}} locale={locale} />
+        {/* 分类筛选 */}
+        <section className="mb-8">
+          <CategoryFilter locale={locale} initialCategory={activeCategory} />
         </section>
 
-        {activeCategory === 'all' && !query && (
+        {/* 热门推荐 */}
+        {!searchQuery && activeCategory === 'all' && (
           <section className="mb-12">
             <div className="flex items-center gap-2 mb-6">
               <span className="text-2xl">⭐</span>
@@ -61,16 +100,19 @@ export default function Home({ params, searchParams }: HomeProps) {
           </section>
         )}
 
+        {/* 工具列表 */}
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {query ? `${t('searchResults', locale)} "${query}"` : activeCategory === 'all' ? t('allTools', locale) : getCategoryName(activeCategory, locale)}
+              {searchQuery 
+                ? `${t('searchResults', locale)} "${searchQuery}"` 
+                : getCategoryDisplayName(activeCategory)}
             </h2>
-            <span className="text-gray-500 text-sm">{displayedTools.length} {t('toolsCount', locale)}</span>
+            <span className="text-gray-500 text-sm">{filteredTools().length} {t('toolsCount', locale)}</span>
           </div>
-          {displayedTools.length > 0 ? (
+          {filteredTools().length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {displayedTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
+              {filteredTools().map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
             </div>
           ) : (
             <div className="text-center py-20">
